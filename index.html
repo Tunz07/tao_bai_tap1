@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hệ Thống Luyện Tập & Quản Lý Bài Tập</title>
+    <title>Hệ Thống Kiểm Tra & Luyện Tập Smart Quiz</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -14,20 +14,22 @@
     />
     <style>
       :root {
+        --blue: #1e6fe8;
+        --blue-dark: #155dc7;
+        --orange: #ff7a45;
+        --green: #16a34a;
+        --green-light: #f0fdf4;
+        --red: #dc2626;
+        --red-light: #fef2f2;
+        --gray-bg: #f2f3f6;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-600: #4b5563;
+        --gray-800: #1f2937;
+        --yellow: #fde68a;
         --sidebar-bg: #111827;
         --sidebar-hover: #1f2937;
-        --primary: #1e6fe8;
-        --primary-dark: #155dc7;
-        --bg-main: #f8fafc;
-        --card-bg: #ffffff;
-        --text-main: #0f172a;
-        --text-muted: #64748b;
-        --border: #e2e8f0;
-        --green: #16a34a;
-        --green-bg: #f0fdf4;
-        --red: #dc2626;
-        --red-bg: #fef2f2;
-        --yellow: #fde68a;
       }
 
       * {
@@ -37,10 +39,10 @@
         font-family: "Inter", sans-serif;
       }
       body {
-        background: var(--bg-main);
-        color: var(--text-main);
-        display: flex;
+        background: var(--gray-bg);
+        color: var(--gray-800);
         min-height: 100vh;
+        display: flex;
       }
 
       /* --- SIDEBAR --- */
@@ -64,6 +66,7 @@
         gap: 12px;
         font-weight: 700;
         font-size: 18px;
+        font-family: "Space Grotesk", sans-serif;
       }
       .avatar-circle {
         width: 36px;
@@ -124,7 +127,7 @@
         cursor: pointer;
       }
 
-      /* --- MAIN CONTENT --- */
+      /* --- MAIN WORKSPACE --- */
       .main-content {
         margin-left: 240px;
         flex: 1;
@@ -140,10 +143,11 @@
       .page-title {
         font-size: 22px;
         font-weight: 700;
+        font-family: "Space Grotesk", sans-serif;
       }
       .page-desc {
         font-size: 13px;
-        color: var(--text-muted);
+        color: var(--gray-600);
         margin-top: 4px;
       }
       .btn-primary {
@@ -172,8 +176,8 @@
         margin-bottom: 24px;
       }
       .stat-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
+        background: #fff;
+        border: 1px solid var(--gray-200);
         border-radius: 12px;
         padding: 20px;
         display: flex;
@@ -187,7 +191,7 @@
       }
       .stat-label {
         font-size: 13px;
-        color: var(--text-muted);
+        color: var(--gray-600);
       }
       .stat-icon {
         width: 42px;
@@ -199,7 +203,7 @@
         font-size: 18px;
       }
 
-      /* --- FILTER & SEARCH BAR --- */
+      /* --- FILTER & SEARCH --- */
       .filter-bar {
         display: flex;
         justify-content: space-between;
@@ -207,47 +211,26 @@
         margin-bottom: 20px;
         gap: 12px;
       }
+      .search-box {
+        position: relative;
+      }
       .search-input {
-        background: #f1f5f9;
-        border: none;
+        background: #fff;
+        border: 1px solid var(--gray-200);
         padding: 10px 16px 10px 38px;
         border-radius: 8px;
         font-size: 14px;
         width: 300px;
-      }
-      .search-box {
-        position: relative;
       }
       .search-box i {
         position: absolute;
         left: 14px;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--text-muted);
-      }
-      .filter-tags {
-        display: flex;
-        background: #e2e8f0;
-        padding: 3px;
-        border-radius: 8px;
-        gap: 2px;
-      }
-      .tag-btn {
-        border: none;
-        background: none;
-        padding: 6px 14px;
-        font-size: 13px;
-        font-weight: 600;
-        border-radius: 6px;
-        cursor: pointer;
-        color: var(--text-muted);
-      }
-      .tag-btn.active {
-        background: #fff;
-        color: var(--text-main);
+        color: var(--gray-600);
       }
 
-      /* --- TOPIC LIST / GRID --- */
+      /* --- TOPIC GRID --- */
       .topic-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -255,14 +238,14 @@
       }
       .topic-card {
         background: #fff;
-        border: 1px solid var(--border);
+        border: 1px solid var(--gray-200);
         border-radius: 12px;
         padding: 20px;
         transition: 0.2s;
         position: relative;
       }
       .topic-card:hover {
-        border-color: var(--primary);
+        border-color: var(--blue);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       }
       .topic-card-title {
@@ -272,7 +255,7 @@
       }
       .topic-meta {
         font-size: 12px;
-        color: var(--text-muted);
+        color: var(--gray-600);
         display: flex;
         gap: 12px;
         margin-bottom: 12px;
@@ -285,7 +268,7 @@
       }
       .badge {
         background: #eff6ff;
-        color: var(--primary);
+        color: var(--blue);
         padding: 4px 8px;
         border-radius: 6px;
         font-size: 11px;
@@ -293,19 +276,23 @@
       }
       .btn-play {
         width: 100%;
-        padding: 8px;
-        background: var(--primary);
+        padding: 10px;
+        background: var(--blue);
         color: #fff;
         border: none;
         border-radius: 6px;
         font-weight: 600;
         cursor: pointer;
+        transition: 0.15s;
+      }
+      .btn-play:hover {
+        background: var(--blue-dark);
       }
 
       /* --- DASHBOARD EMPTY STATE --- */
       .empty-box {
         background: #fff;
-        border: 2px dashed var(--border);
+        border: 2px dashed var(--gray-300);
         border-radius: 12px;
         padding: 48px;
         text-align: center;
@@ -319,18 +306,18 @@
         align-items: center;
         justify-content: center;
         margin: 0 auto 16px;
-        color: var(--text-muted);
+        color: var(--gray-600);
       }
 
-      /* --- CREATE TOPIC VIEW --- */
+      /* --- CREATE TOPIC FORM --- */
       .create-container {
         display: grid;
-        grid-template-columns: 420px 1fr;
+        grid-template-columns: 460px 1fr;
         gap: 24px;
       }
       .form-card {
         background: #fff;
-        border: 1px solid var(--border);
+        border: 1px solid var(--gray-200);
         border-radius: 12px;
         padding: 24px;
       }
@@ -345,118 +332,376 @@
       }
       .form-control {
         width: 100%;
-        border: 1px solid var(--border);
+        border: 1px solid var(--gray-200);
         border-radius: 8px;
         padding: 10px 14px;
         font-size: 14px;
         outline: none;
-        background: #f8fafc;
+        background: #fafafa;
       }
       .form-control:focus {
-        border-color: var(--primary);
+        border-color: var(--blue);
         background: #fff;
       }
       textarea.form-control {
-        min-height: 140px;
+        min-height: 180px;
         resize: vertical;
+        line-height: 1.5;
       }
 
-      /* --- QUIZ RUNNER INTERFACE --- */
-      .quiz-runner {
-        background: #fff;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        overflow: hidden;
-        max-width: 800px;
+      /* --- QUIZ RUNNER INTERFACE (Layout chuẩn từ file mẫu) --- */
+      .quiz-runner-wrap {
+        max-width: 760px;
         margin: 0 auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        padding-bottom: 80px;
+        position: relative;
       }
-      .quiz-header {
-        background: var(--primary);
+      .header-quiz {
+        background: var(--blue);
         color: #fff;
         padding: 16px 20px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 50;
       }
-      .quiz-body {
-        padding: 24px;
+      .header-title {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .timer {
+        font-size: 16px;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 5px 12px;
+        border-radius: 8px;
+      }
+      .qtop {
+        background: var(--gray-bg);
+        padding: 20px 20px 4px;
       }
       .qnum {
+        font-size: 16px;
         font-weight: 700;
-        color: var(--primary);
-        margin-bottom: 6px;
+        margin-bottom: 8px;
       }
       .qtext {
         font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 16px;
-        line-height: 1.5;
+        font-weight: 500;
+        line-height: 1.55;
+        margin-bottom: 12px;
       }
-      .opt-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-bottom: 20px;
-      }
-      .opt-item {
-        padding: 12px 16px;
-        border: 1.5px solid var(--border);
+      .note-yellow {
+        background: var(--yellow);
         border-radius: 8px;
+        padding: 11px 15px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #78350f;
+        margin-bottom: 14px;
+      }
+      .sep {
+        border-bottom: 2px dashed var(--gray-300);
+        margin: 0 20px;
+      }
+      .qbody {
+        background: #fff;
+        padding: 20px;
+        min-height: 200px;
+      }
+      .answer-lbl {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 14px;
+      }
+
+      /* OPTION STYLES */
+      .mopt {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px 16px;
+        border: 1.5px solid var(--gray-200);
+        border-radius: 10px;
         cursor: pointer;
+        font-size: 15px;
+        transition: all 0.15s;
+        margin-bottom: 12px;
+        user-select: none;
+      }
+      .mopt:hover:not(.locked) {
+        border-color: var(--blue);
+        background: #eff6ff;
+      }
+      .mopt.sel {
+        border-color: var(--blue);
+        background: #eff6ff;
+      }
+      .mopt.ok {
+        border-color: var(--green);
+        background: var(--green-light);
+      }
+      .mopt.bad {
+        border-color: var(--red);
+        background: var(--red-light);
+      }
+      .mopt.missed {
+        border-color: var(--orange);
+        background: #fff7ed;
+      }
+      .mchk {
+        width: 22px;
+        height: 22px;
+        border: 2px solid var(--gray-300);
+        border-radius: 5px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 800;
+        color: #fff;
+        margin-top: 1px;
+      }
+      .mopt.sel .mchk {
+        background: var(--blue);
+        border-color: var(--blue);
+      }
+      .mopt.ok .mchk {
+        background: var(--green);
+        border-color: var(--green);
+      }
+      .mopt.bad .mchk {
+        background: var(--red);
+        border-color: var(--red);
+      }
+      .mopt.missed .mchk {
+        background: var(--orange);
+        border-color: var(--orange);
+      }
+      .mtext {
+        line-height: 1.5;
+        padding-top: 1px;
+      }
+      .mtext b {
+        margin-right: 4px;
+      }
+
+      /* TRUE/FALSE STYLES */
+      .tfitem {
+        margin-bottom: 22px;
+      }
+      .tflbl {
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.55;
+        margin-bottom: 10px;
+      }
+      .tfrow {
         display: flex;
         align-items: center;
         gap: 12px;
-        transition: 0.15s;
-      }
-      .opt-item:hover {
-        border-color: var(--primary);
-        background: #eff6ff;
-      }
-      .opt-item.selected {
-        border-color: var(--primary);
-        background: #eff6ff;
-      }
-      .opt-item.correct {
-        border-color: var(--green);
-        background: var(--green-bg);
-      }
-      .opt-item.incorrect {
-        border-color: var(--red);
-        background: var(--red-bg);
-      }
-      .quiz-footer {
-        padding: 16px 24px;
-        background: #f8fafc;
-        border-top: 1px solid var(--border);
-        display: flex;
-        justify-content: space-between;
-      }
-      .tf-item {
-        margin-bottom: 16px;
-      }
-      .tf-btns {
-        display: flex;
-        gap: 10px;
-        margin-top: 6px;
-      }
-      .tf-btn {
-        flex: 1;
-        padding: 8px;
-        border: 1px solid var(--border);
-        background: #fff;
-        border-radius: 6px;
+        padding: 13px 16px;
+        border: 1.5px solid var(--gray-200);
+        border-radius: 10px;
         cursor: pointer;
-        font-weight: 600;
+        font-size: 15px;
+        margin-bottom: 8px;
+        transition: all 0.15s;
       }
-      .tf-btn.active {
-        border-color: var(--primary);
+      .tfrow:hover:not(.locked) {
+        border-color: var(--blue);
         background: #eff6ff;
-        color: var(--primary);
+      }
+      .tfrow.sel {
+        border-color: var(--blue);
+        background: #eff6ff;
+      }
+      .tfrow.ok {
+        border-color: var(--green);
+        background: var(--green-light);
+      }
+      .tfrow.bad {
+        border-color: var(--red);
+        background: var(--red-light);
+      }
+      .tfradio {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--gray-300);
+        border-radius: 50%;
+        flex-shrink: 0;
+        position: relative;
+      }
+      .tfrow.sel .tfradio::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border-radius: 50%;
+        background: var(--blue);
+      }
+      .tfrow.ok .tfradio::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+      .tfrow.bad .tfradio::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border-radius: 50%;
+        background: var(--red);
+      }
+
+      /* FEEDBACK CARD & CHECK BTN */
+      .check-btn {
+        margin-top: 8px;
+        width: 100%;
+        padding: 13px;
+        background: var(--blue);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .check-btn:hover {
+        background: var(--blue-dark);
+      }
+      .fb {
+        margin-top: 16px;
+        border-radius: 10px;
+        overflow: hidden;
+        font-size: 14px;
+      }
+      .fb-top {
+        padding: 11px 15px;
+        font-weight: 700;
+        font-size: 15px;
+      }
+      .fb.ok .fb-top {
+        background: var(--green-light);
+        color: var(--green);
+      }
+      .fb.bad .fb-top {
+        background: var(--red-light);
+        color: var(--red);
+      }
+      .fb-body {
+        padding: 11px 15px;
+        line-height: 1.7;
+        border-top: 1px dashed rgba(0, 0, 0, 0.08);
+      }
+      .fb.ok .fb-body {
+        background: #f0fdf4cc;
+        color: #166534;
+      }
+      .fb.bad .fb-body {
+        background: #fef2f2cc;
+        color: #991b1b;
+      }
+
+      /* BOTTOM NAVIGATION BAR */
+      .nav-quiz {
+        position: fixed;
+        bottom: 0;
+        left: 240px;
+        right: 0;
+        display: flex;
+        gap: 2px;
+        height: 70px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+        z-index: 50;
+      }
+      .nav-btn {
+        flex: 1;
+        border: none;
+        font-size: 14px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .nav-prev {
+        background: var(--orange);
+        color: #fff;
+        font-size: 22px;
+        flex: 0 0 15%;
+      }
+      .nav-prev:disabled {
+        background: #ffd3b8;
+        cursor: default;
+      }
+      .nav-mid {
+        background: #fff;
+        color: var(--gray-800);
+        flex-direction: column;
+        gap: 2px;
+        flex: 1;
+        border-top: 1px solid var(--gray-200);
+      }
+      .nav-mid .lbl {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--gray-600);
+      }
+      .nav-mid .val {
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .nav-next {
+        background: #fff;
+        color: var(--gray-800);
+        font-size: 22px;
+        flex: 0 0 15%;
+        border-top: 1px solid var(--gray-200);
+      }
+      .nav-next.submit {
+        background: var(--blue);
+        color: #fff;
+        font-size: 14px;
+      }
+
+      /* SCORE RESULT */
+      .result-card {
+        padding: 50px 24px;
+        text-align: center;
+      }
+      .result-card .emoji {
+        font-size: 60px;
+        margin-bottom: 10px;
+      }
+      .result-card h2 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+      .result-card .score {
+        font-size: 44px;
+        font-weight: 800;
+        color: var(--blue);
+        margin: 12px 0;
+      }
+      .result-card .sub {
+        font-size: 14px;
+        color: var(--gray-600);
+        margin-bottom: 24px;
       }
     </style>
   </head>
   <body>
-    <!-- SIDEBAR NAVIGATION -->
+    <!-- SIDEBAR -->
     <div class="sidebar">
       <div>
         <div class="sidebar-logo">
@@ -488,9 +733,9 @@
       </div>
     </div>
 
-    <!-- MAIN WORKSPACE -->
+    <!-- WORKSPACE -->
     <div class="main-content">
-      <!-- VIEW 1: HOME DASHBOARD -->
+      <!-- VIEW 1: HOME -->
       <div id="view-home">
         <div class="top-header">
           <div>
@@ -552,11 +797,6 @@
               placeholder="Tìm kiếm chủ đề, tag..."
             />
           </div>
-          <div class="filter-tags">
-            <button class="tag-btn active">Tất cả</button>
-            <button class="tag-btn">Hoạt động</button>
-            <button class="tag-btn">Nháp</button>
-          </div>
         </div>
 
         <div id="home-topic-container">
@@ -565,13 +805,13 @@
             <h3>Bắt đầu tạo bài tập</h3>
             <p
               style="
-                color: var(--text-muted);
+                color: var(--gray-600);
                 font-size: 14px;
                 margin: 8px 0 20px;
               "
             >
-              Tải lên văn bản hoặc nhập nội dung — Tunz sẽ tự động sinh câu hỏi
-              để hỗ trợ học tập.
+              Dán nội dung hoặc chọn file — hệ thống sẽ tự động phân tích và
+              sinh câu hỏi.
             </p>
             <button
               class="btn-primary"
@@ -584,7 +824,7 @@
         </div>
       </div>
 
-      <!-- VIEW 2: MANAGEMENT & CREATE TOPIC -->
+      <!-- VIEW 2: MANAGE & CREATE -->
       <div id="view-manage" style="display: none">
         <div class="top-header">
           <div>
@@ -595,16 +835,18 @@
               ></i>
               Quản lý chủ đề
             </h1>
-            <p class="page-desc">Tạo chủ đề và sinh câu hỏi từ văn bản</p>
+            <p class="page-desc">
+              Tạo chủ đề và phân tích tự động từ văn bản nguồn
+            </p>
           </div>
         </div>
 
         <div class="create-container">
-          <!-- Form Input Left -->
           <div class="form-card">
             <h3 style="font-size: 15px; margin-bottom: 16px">
               <i class="fa-solid fa-plus"></i> Thêm chủ đề mới
             </h3>
+
             <div class="form-group">
               <label class="form-label">Tên chủ đề</label>
               <input
@@ -614,15 +856,21 @@
                 placeholder="Tên chủ đề..."
               />
             </div>
+
+            <!-- UPLOAD FILE NGUỒN TỪ MÁY TÍNH -->
             <div class="form-group">
-              <label class="form-label">Văn bản nguồn (Tùy chọn)</label>
+              <label class="form-label"
+                >Văn bản nguồn (Chọn file .txt từ máy tính)</label
+              >
               <input
-                type="text"
+                type="file"
+                id="topic-file"
                 class="form-control"
-                placeholder="Chọn văn bản (.pdf, .docx, .txt)"
-                readonly
+                accept=".txt"
+                onchange="handleFileUpload(event)"
               />
             </div>
+
             <div class="form-group">
               <label class="form-label"
                 >Nội dung câu hỏi / Văn bản cấu trúc</label
@@ -630,9 +878,10 @@
               <textarea
                 id="topic-raw"
                 class="form-control"
-                placeholder="Dán nội dung chứa câu hỏi, đáp án tại đây...&#10;Hệ thống tự động nhận diện câu trắc nghiệm (A,B,C,D) hoặc Đúng/Sai."
+                placeholder="Dán văn bản câu hỏi vào đây.Ví dụ:&#10;Câu 1: Giao thức IP hoạt động ở tầng nào?&#10;A. Tầng ứng dụng&#10;B. Tầng mạng&#10;Đáp án: B. Tầng mạng&#10;Giải thích: Lời giải..."
               ></textarea>
             </div>
+
             <div class="form-group">
               <label class="form-label">Thẻ tag (cách nhau bởi dấu phẩy)</label>
               <input
@@ -642,16 +891,16 @@
                 placeholder="Ví dụ: Mạng máy tính, Bài 4"
               />
             </div>
+
             <button
               class="btn-primary"
               style="width: 100%; justify-content: center; margin-top: 8px"
               onclick="createTopic()"
             >
-              Tạo chủ đề
+              Phân tích & Tạo chủ đề
             </button>
           </div>
 
-          <!-- Topic List Right -->
           <div class="form-card">
             <h3 style="font-size: 15px; margin-bottom: 16px">
               Danh sách chủ đề (<span id="topic-count">0</span>)
@@ -659,13 +908,13 @@
             <div id="manage-topic-list">
               <p
                 style="
-                  color: var(--text-muted);
+                  color: var(--gray-600);
                   font-size: 14px;
                   text-align: center;
                   padding: 40px 0;
                 "
               >
-                Chưa có chủ đề nào. Hãy tạo chủ đề đầu tiên!
+                Chưa có chủ đề nào được khởi tạo.
               </p>
             </div>
           </div>
@@ -674,24 +923,25 @@
 
       <!-- VIEW 3: QUIZ RUNNER -->
       <div id="view-quiz" style="display: none">
-        <div class="quiz-runner">
-          <div class="quiz-header">
-            <h3 id="quiz-title">Tên bài kiểm tra</h3>
-            <span id="quiz-timer"
-              ><i class="fa-regular fa-clock"></i> 15:00</span
-            >
+        <div class="quiz-runner-wrap">
+          <div class="header-quiz">
+            <div class="header-title" id="quiz-header-title">Kiểm tra</div>
+            <div class="timer" id="timerEl">15:00</div>
           </div>
-          <div class="quiz-body" id="quiz-body-content">
-            <!-- Dynamic quiz content -->
-          </div>
-          <div class="quiz-footer">
-            <button class="tag-btn" onclick="switchView('home')">Thoát</button>
-            <button
-              class="btn-primary"
-              id="btn-quiz-next"
-              onclick="nextQuestion()"
-            >
-              Câu tiếp theo
+
+          <div id="quiz-main-container"></div>
+
+          <!-- FOOTER NAVIGATION FIX CỨNG -->
+          <div class="nav-quiz" id="navQuizEl">
+            <button class="nav-btn nav-prev" id="btnPrev" onclick="prevQ()">
+              &#8249;
+            </button>
+            <div class="nav-btn nav-mid">
+              <div class="lbl">Câu hỏi</div>
+              <div class="val" id="quizNavProgress">1 / 1</div>
+            </div>
+            <button class="nav-btn nav-next" id="btnNext" onclick="nextQ()">
+              &#8250;
             </button>
           </div>
         </div>
@@ -699,88 +949,127 @@
     </div>
 
     <script>
-      // --- DATA STORAGE ---
+      // --- STATE MANAGEMENT ---
       let topics = [];
       let currentQuiz = null;
-      let currentQIdx = 0;
-      let userAnswers = {};
+      let curQ = 0;
+      let userANS = {};
+      let tempANS = {};
+      let secondsLeft = 1200;
+      let timerId = null;
 
-      // --- NAVIGATION SWITCHER ---
-      function switchView(viewName) {
+      function switchView(v) {
         document.getElementById("view-home").style.display =
-          viewName === "home" ? "block" : "none";
+          v === "home" ? "block" : "none";
         document.getElementById("view-manage").style.display =
-          viewName === "manage" ? "block" : "none";
+          v === "manage" ? "block" : "none";
         document.getElementById("view-quiz").style.display =
-          viewName === "quiz" ? "block" : "none";
+          v === "quiz" ? "block" : "none";
 
         document
           .querySelectorAll(".nav-item")
-          .forEach((el) => el.classList.remove("active"));
-        if (viewName === "home")
+          .forEach((e) => e.classList.remove("active"));
+        if (v === "home")
           document.querySelectorAll(".nav-item")[0].classList.add("active");
-        if (viewName === "manage")
+        if (v === "manage")
           document.querySelectorAll(".nav-item")[1].classList.add("active");
 
         updateDashboard();
       }
 
-      // --- TEXT PARSER ENGINE (Chuyển đổi văn bản dán vào thành dữ liệu câu hỏi) ---
-      function parseTextToQuestions(rawText) {
+      // --- FILE UPLOAD HANDLER ---
+      function handleFileUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          document.getElementById("topic-raw").value = e.target.result;
+        };
+        reader.readAsText(file);
+      }
+
+      // --- SMART TEXT PARSER ENGINE ---
+      function parseTextToQuestions(text) {
         const questions = [];
-        const blocks = rawText
-          .split(/Câu\s+\d+[:.]/gi)
+        // Tách từng khối câu hỏi thông qua tiền tố "Câu X:"
+        const rawBlocks = text
+          .split(/(?=Câu\s+\d+[:.])/gi)
           .filter((b) => b.trim() !== "");
 
-        blocks.forEach((block, idx) => {
+        rawBlocks.forEach((block, idx) => {
           const lines = block
             .split("\n")
             .map((l) => l.trim())
             .filter((l) => l !== "");
-          if (lines.length < 2) return;
+          if (lines.length === 0) return;
 
-          const qText = lines[0];
-          const options = [];
-          let correctAns = [];
+          let qText = lines[0].replace(/^Câu\s+\d+[:.]/gi, "").trim();
+          let opts = [];
+          let correctIndices = [];
+          let explain = "";
           let isTF = false;
           let tfItems = [];
 
-          // Kiểm tra định dạng Đúng/Sai hoặc Trắc nghiệm
+          // Phân tích các dòng chi tiết
           lines.slice(1).forEach((line) => {
-            const optMatch = line.match(/^([A-DF-Z])[\.\)]\s*(.*)/i);
-            if (optMatch) {
-              options.push(optMatch[2]);
-              if (line.includes("*") || line.toLowerCase().includes("[đúng]")) {
-                correctAns.push(options.length - 1);
+            // Nhận diện Lời giải / Giải thích
+            if (line.match(/^(Giải thích|Lời giải|Ghi chú)[:.]/gi)) {
+              explain = line
+                .replace(/^(Giải thích|Lời giải|Ghi chú)[:.]/gi, "")
+                .trim();
+              return;
+            }
+
+            // Nhận diện Đáp án đúng
+            if (line.match(/^(Đáp án|Đáp án đúng)[:.]/gi)) {
+              const ansStr = line
+                .replace(/^(Đáp án|Đáp án đúng)[:.]/gi, "")
+                .trim();
+              const matches = ansStr.match(/[A-Z]/g);
+              if (matches) {
+                matches.forEach((m) => {
+                  const code = m.charCodeAt(0) - 65;
+                  if (!correctIndices.includes(code)) correctIndices.push(code);
+                });
               }
-            } else if (
-              line.toLowerCase().includes("đúng") ||
-              line.toLowerCase().includes("sai")
+              return;
+            }
+
+            // Nhận diện Phương án A. B. C. D.
+            const optMatch = line.match(/^([A-F])[\.\)]\s*(.*)/i);
+            if (optMatch) {
+              opts.push(optMatch[2].trim());
+            }
+            // Nhận diện dạng câu hỏi Đúng/Sai theo dòng
+            else if (
+              line.toLowerCase().includes("[đúng]") ||
+              line.toLowerCase().includes("[sai]")
             ) {
               isTF = true;
               tfItems.push({
-                stmt: line
-                  .replace(/(\(Đúng\)|\(Sai\)|\[Đúng\]|\[Sai\])/gi, "")
-                  .trim(),
-                ans: line.toLowerCase().includes("đúng"),
+                stmt: line.replace(/\[(Đúng|Sai)\]/gi, "").trim(),
+                ans: line.toLowerCase().includes("[đúng]"),
               });
             }
           });
 
-          if (isTF) {
+          if (isTF && tfItems.length > 0) {
             questions.push({
               id: idx + 1,
               type: "tf",
               text: qText,
               items: tfItems,
+              explain,
             });
-          } else if (options.length > 0) {
+          } else if (opts.length > 0) {
             questions.push({
               id: idx + 1,
               type: "multi",
               text: qText,
-              opts: options,
-              ans: correctAns.length > 0 ? correctAns : [0], // Mặc định chọn A nếu không đánh dấu
+              opts: opts,
+              ans: correctIndices.length > 0 ? correctIndices : [0],
+              explain:
+                explain || "Chưa có lời giải thích chi tiết cho câu hỏi này.",
             });
           }
         });
@@ -788,40 +1077,46 @@
         return questions;
       }
 
-      // --- CREATE TOPIC ACTION ---
+      // --- CREATE TOPIC ---
       function createTopic() {
         const title = document.getElementById("topic-title").value.trim();
         const rawText = document.getElementById("topic-raw").value.trim();
         const tagsText = document.getElementById("topic-tags").value.trim();
 
         if (!title || !rawText) {
-          alert("Vui lòng điền tên chủ đề và dán nội dung câu hỏi!");
+          alert("Vui lòng điền đầy đủ Tên chủ đề và Nội dung văn bản câu hỏi!");
           return;
         }
 
-        const questions = parseTextToQuestions(rawText);
+        const parsedQs = parseTextToQuestions(rawText);
+        if (parsedQs.length === 0) {
+          alert(
+            'Không thể nhận diện được câu hỏi nào! Hãy đảm bảo cấu trúc gồm "Câu 1:...", "A. ...", "Đáp án: ..."',
+          );
+          return;
+        }
+
         const newTopic = {
           id: Date.now(),
           title: title,
           tags: tagsText
             ? tagsText.split(",").map((t) => t.trim())
-            : ["Tự tạo"],
-          questions: questions,
+            : ["Tổng hợp"],
+          questions: parsedQs,
           createdAt: new Date().toLocaleDateString("vi-VN"),
         };
 
         topics.push(newTopic);
-        alert(`Đã khởi tạo thành công ${questions.length} câu hỏi!`);
+        alert(`Đã khởi tạo thành công ${parsedQs.length} câu hỏi!`);
 
-        // Reset Form
         document.getElementById("topic-title").value = "";
         document.getElementById("topic-raw").value = "";
+        document.getElementById("topic-file").value = "";
         document.getElementById("topic-tags").value = "";
-
         switchView("home");
       }
 
-      // --- DASHBOARD RENDER & UPDATES ---
+      // --- UPDATE DASHBOARD UI ---
       function updateDashboard() {
         document.getElementById("stat-topics").textContent = topics.length;
         const totalQ = topics.reduce((acc, t) => acc + t.questions.length, 0);
@@ -833,11 +1128,11 @@
         const manageContainer = document.getElementById("manage-topic-list");
 
         if (topics.length === 0) {
-          manageContainer.innerHTML = `<p style="color:var(--text-muted); font-size:14px; text-align:center; padding:40px 0;">Chưa có chủ đề nào. Hãy tạo chủ đề đầu tiên!</p>`;
+          manageContainer.innerHTML = `<p style="color:var(--gray-600); font-size:14px; text-align:center; padding:40px 0;">Chưa có chủ đề nào được khởi tạo.</p>`;
           return;
         }
 
-        // Render Grid trên Trang chủ
+        // Home Grid
         let gridHtml = '<div class="topic-grid">';
         topics.forEach((t) => {
           gridHtml += `
@@ -850,96 +1145,295 @@
         <div class="topic-tags">
           ${t.tags.map((tag) => `<span class="badge">${tag}</span>`).join("")}
         </div>
-        <button class="btn-play" onclick="startQuiz(${t.id})">Luyện tập ngay</button>
+        <button class="btn-play" onclick="startQuiz(${t.id})">Làm bài ngay</button>
       </div>`;
         });
         gridHtml += "</div>";
         homeContainer.innerHTML = gridHtml;
 
-        // Render Danh sách ở trang Quản lý
+        // Manage List
         let manageHtml = "";
         topics.forEach((t) => {
           manageHtml += `
-      <div style="border:1px solid var(--border); padding:12px 16px; border-radius:8px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+      <div style="border:1px solid var(--gray-200); padding:12px 16px; border-radius:8px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
         <div>
           <div style="font-weight:600;">${t.title}</div>
-          <div style="font-size:12px; color:var(--text-muted);">${t.questions.length} câu hỏi</div>
+          <div style="font-size:12px; color:var(--gray-600);">${t.questions.length} câu hỏi</div>
         </div>
-        <button class="tag-btn" onclick="startQuiz(${t.id})">Thi thử</button>
+        <button class="btn-primary" style="padding:6px 12px; font-size:12px;" onclick="startQuiz(${t.id})">Làm bài</button>
       </div>`;
         });
         manageContainer.innerHTML = manageHtml;
       }
 
       // --- QUIZ ENGINE ---
-      function startQuiz(topicId) {
-        currentQuiz = topics.find((t) => t.id === topicId);
-        if (!currentQuiz || currentQuiz.questions.length === 0) {
-          alert("Chủ đề này chưa có câu hỏi hợp lệ!");
+      function startQuiz(id) {
+        currentQuiz = topics.find((t) => t.id === id);
+        if (!currentQuiz) return;
+
+        curQ = 0;
+        userANS = {};
+        tempANS = {};
+        secondsLeft = currentQuiz.questions.length * 70; // ~70s/câu
+
+        document.getElementById("quiz-header-title").textContent =
+          currentQuiz.title;
+        switchView("quiz");
+        startTimer();
+        renderQuizCard();
+      }
+
+      function startTimer() {
+        clearInterval(timerId);
+        const el = document.getElementById("timerEl");
+        timerId = setInterval(() => {
+          secondsLeft--;
+          const m = Math.floor(secondsLeft / 60);
+          const s = secondsLeft % 60;
+          el.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+          if (secondsLeft <= 0) {
+            clearInterval(timerId);
+            finishQuiz();
+          }
+        }, 1000);
+      }
+
+      function renderQuizCard() {
+        const container = document.getElementById("quiz-main-container");
+        const navBar = document.getElementById("navQuizEl");
+        navBar.style.display = "flex";
+
+        if (curQ >= currentQuiz.questions.length) {
+          renderResultCard(container);
           return;
         }
-        currentQIdx = 0;
-        userAnswers = {};
-        document.getElementById("quiz-title").textContent = currentQuiz.title;
-        switchView("quiz");
-        renderCurrentQuestion();
-      }
 
-      function renderCurrentQuestion() {
-        const q = currentQuiz.questions[currentQIdx];
-        const container = document.getElementById("quiz-body-content");
-        let html = `<div class="qnum">Câu ${currentQIdx + 1}/${currentQuiz.questions.length}</div>
-              <div class="qtext">${q.text}</div>`;
+        const q = currentQuiz.questions[curQ];
+        const saved = userANS[curQ];
 
-        if (q.type === "multi") {
-          html += '<div class="opt-list">';
-          q.opts.forEach((opt, idx) => {
-            const isSel = userAnswers[currentQIdx] === idx;
-            html += `
-        <div class="opt-item ${isSel ? "selected" : ""}" onclick="selectOpt(${idx})">
-          <div style="font-weight:700;">${String.fromCharCode(65 + idx)}.</div>
-          <div>${opt}</div>
-        </div>`;
-          });
-          html += "</div>";
-        } else if (q.type === "tf") {
-          html += "<div>";
-          q.items.forEach((it, idx) => {
-            html += `
-        <div class="tf-item">
-          <div style="font-size:14px; font-weight:500;">${idx + 1}. ${it.stmt}</div>
-          <div class="tf-btns">
-            <button class="tf-btn" onclick="selectTF(${idx}, true)">Đúng</button>
-            <button class="tf-btn" onclick="selectTF(${idx}, false)">Sai</button>
-          </div>
-        </div>`;
-          });
-          html += "</div>";
-        }
+        // Cập nhật thanh điều hướng
+        document.getElementById("btnPrev").disabled = curQ === 0;
+        document.getElementById("quizNavProgress").textContent =
+          `${curQ + 1} / ${currentQuiz.questions.length}`;
+        const btnNext = document.getElementById("btnNext");
 
-        container.innerHTML = html;
-        document.getElementById("btn-quiz-next").textContent =
-          currentQIdx === currentQuiz.questions.length - 1
-            ? "Hoàn thành"
-            : "Câu tiếp theo";
-      }
-
-      function selectOpt(idx) {
-        userAnswers[currentQIdx] = idx;
-        renderCurrentQuestion();
-      }
-
-      function nextQuestion() {
-        if (currentQIdx < currentQuiz.questions.length - 1) {
-          currentQIdx++;
-          renderCurrentQuestion();
+        if (curQ === currentQuiz.questions.length - 1) {
+          btnNext.className = "nav-btn nav-next submit";
+          btnNext.textContent = "Nộp bài";
         } else {
-          alert("Chúc mừng bạn đã hoàn thành bài thi!");
-          switchView("home");
+          btnNext.className = "nav-btn nav-next";
+          btnNext.innerHTML = "&#8250;";
+        }
+
+        let html = `
+    <div class="qtop">
+      <div class="qnum">Câu ${curQ + 1}:</div>
+      <div class="qtext">${q.text}</div>
+      ${q.type === "multi" && q.ans.length > 1 ? `<div class="note-yellow">Hãy chọn ${q.ans.length} đáp án đúng!</div>` : ""}
+    </div>
+    <div class="sep"></div>
+    <div class="qbody" id="qbodyContent"></div>
+  `;
+        container.innerHTML = html;
+
+        const bodyEl = document.getElementById("qbodyContent");
+        if (q.type === "multi") buildMultiView(bodyEl, q, curQ);
+        else if (q.type === "tf") buildTFView(bodyEl, q, curQ);
+      }
+
+      // --- RENDER TRẮC NGHIỆM ---
+      function buildMultiView(body, q, qIdx) {
+        const saved = userANS[qIdx];
+        if (!tempANS[qIdx]) tempANS[qIdx] = [];
+        const LABELS = ["A", "B", "C", "D", "E", "F"];
+
+        const lbl = document.createElement("div");
+        lbl.className = "answer-lbl";
+        lbl.textContent = "Trả lời:";
+        body.appendChild(lbl);
+
+        q.opts.forEach((opt, oi) => {
+          const sel = saved
+            ? saved.sel.includes(oi)
+            : tempANS[qIdx].includes(oi);
+          let cls = saved
+            ? q.ans.includes(oi) && sel
+              ? "ok"
+              : sel && !q.ans.includes(oi)
+                ? "bad"
+                : !sel && q.ans.includes(oi)
+                  ? "missed"
+                  : ""
+            : sel
+              ? "sel"
+              : "";
+
+          const el = document.createElement("div");
+          el.className = `mopt ${saved ? "locked " : ""}${cls}`;
+          el.innerHTML = `<div class="mchk">${sel ? "✓" : ""}</div><div class="mtext"><b>${LABELS[oi]}.</b>${opt}</div>`;
+
+          if (!saved) {
+            el.onclick = () => {
+              if (q.ans.length === 1) {
+                tempANS[qIdx] = [oi];
+              } else {
+                const idx = tempANS[qIdx].indexOf(oi);
+                if (idx >= 0) tempANS[qIdx].splice(idx, 1);
+                else tempANS[qIdx].push(oi);
+              }
+              renderQuizCard();
+            };
+          }
+          body.appendChild(el);
+        });
+
+        if (!saved) {
+          const btn = document.createElement("button");
+          btn.className = "check-btn";
+          btn.textContent = "Kiểm tra";
+          btn.onclick = () => {
+            const sel = [...tempANS[qIdx]];
+            if (sel.length === 0) {
+              alert("Vui lòng chọn ít nhất 1 đáp án!");
+              return;
+            }
+            const correct =
+              q.ans.every((a) => sel.includes(a)) &&
+              sel.every((s) => q.ans.includes(s));
+            userANS[qIdx] = { sel, correct };
+            renderQuizCard();
+          };
+          body.appendChild(btn);
+        } else {
+          const top = saved.correct
+            ? "✅ Chọn chính xác!"
+            : `❌ Chưa đúng! Đáp án đúng: ${q.ans.map((i) => LABELS[i]).join(" và ")}`;
+          body.appendChild(makeFeedbackCard(saved.correct, top, q.explain));
         }
       }
 
-      // Khởi chạy hệ thống ở màn hình Trang chủ
+      // --- RENDER ĐÚNG / SAI ---
+      function buildTFView(body, q, qIdx) {
+        const saved = userANS[qIdx];
+        if (!tempANS[qIdx]) tempANS[qIdx] = Array(q.items.length).fill(null);
+
+        q.items.forEach((it, ii) => {
+          const wrap = document.createElement("div");
+          wrap.className = "tfitem";
+          wrap.innerHTML = `<div class="tflbl"><span class="idx">${ii + 1}.</span>${it.stmt}</div>`;
+
+          [true, false].forEach((val) => {
+            const chosen = saved
+              ? saved.picks[ii] === val
+              : tempANS[qIdx][ii] === val;
+            let cls = "";
+            if (saved) {
+              if (val === it.ans) cls = "ok";
+              else if (chosen && val !== it.ans) cls = "bad";
+            } else if (chosen) cls = "sel";
+
+            const row = document.createElement("div");
+            row.className = `tfrow ${saved ? "locked " : ""}${cls}`;
+            row.innerHTML = `<div class="tfradio"></div><div>${val ? "Đúng" : "Sai"}</div>`;
+
+            if (!saved) {
+              row.onclick = () => {
+                tempANS[qIdx][ii] = val;
+                renderQuizCard();
+              };
+            }
+            wrap.appendChild(row);
+          });
+          body.appendChild(wrap);
+        });
+
+        if (!saved) {
+          const btn = document.createElement("button");
+          btn.className = "check-btn";
+          btn.textContent = "Kiểm tra";
+          btn.onclick = () => {
+            const picks = [...tempANS[qIdx]];
+            if (picks.some((p) => p === null)) {
+              alert("Vui lòng chọn Đúng hoặc Sai cho tất cả nhận định!");
+              return;
+            }
+            const correct = q.items.every((it, ii) => picks[ii] === it.ans);
+            userANS[qIdx] = { picks, correct };
+            renderQuizCard();
+          };
+          body.appendChild(btn);
+        } else {
+          const nCorrect = q.items.filter(
+            (it, ii) => saved.picks[ii] === it.ans,
+          ).length;
+          const top = saved.correct
+            ? "✅ Tất cả nhận định đều chính xác!"
+            : `❌ Đúng ${nCorrect}/${q.items.length} nhận định`;
+          body.appendChild(makeFeedbackCard(saved.correct, top, q.explain));
+        }
+      }
+
+      // --- FEEDBACK CARD BUILDER ---
+      function makeFeedbackCard(ok, topText, explainText) {
+        const fb = document.createElement("div");
+        fb.className = `fb ${ok ? "ok" : "bad"}`;
+        fb.innerHTML = `
+    <div class="fb-top">${topText}</div>
+    ${explainText ? `<div class="fb-body">💡 <strong>Giải thích:</strong> ${explainText}</div>` : ""}
+  `;
+        return fb;
+      }
+
+      // --- NAVIGATION ACTIONS ---
+      function prevQ() {
+        if (curQ > 0) {
+          curQ--;
+          renderQuizCard();
+        }
+      }
+      function nextQ() {
+        if (curQ < currentQuiz.questions.length - 1) {
+          curQ++;
+          renderQuizCard();
+        } else {
+          finishQuiz();
+        }
+      }
+
+      function finishQuiz() {
+        clearInterval(timerId);
+        curQ = currentQuiz.questions.length;
+        renderQuizCard();
+      }
+
+      // --- RENDER SCORE RESULT ---
+      function renderResultCard(container) {
+        document.getElementById("navQuizEl").style.display = "none";
+
+        let correctCount = 0;
+        const total = currentQuiz.questions.length;
+
+        Object.keys(userANS).forEach((k) => {
+          if (userANS[k].correct) correctCount++;
+        });
+
+        const pct = Math.round((correctCount / total) * 100);
+        const emoji = pct >= 80 ? "🎉" : pct >= 50 ? "👍" : "📚";
+        const msg =
+          pct >= 80 ? "Xuất sắc!" : pct >= 50 ? "Khá tốt!" : "Cần ôn tập thêm!";
+
+        container.innerHTML = `
+    <div class="result-card">
+      <div class="emoji">${emoji}</div>
+      <h2>${msg}</h2>
+      <div class="score">${correctCount} / ${total}</div>
+      <div class="sub">Bạn đã trả lời đúng ${pct}% số câu hỏi trong bài kiểm tra.</div>
+      <button class="btn-primary" style="margin: 0 auto;" onclick="switchView('home')">Quay về trang chủ</button>
+    </div>
+  `;
+      }
+
+      // Default Screen Load
       switchView("home");
     </script>
   </body>
