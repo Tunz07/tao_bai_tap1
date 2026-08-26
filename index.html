@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản Lý Bài Tập - Study Helper</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <header>
+        <h1>📚 Quản Lý Bài Tập</h1>
+        <p>Tạo và phân loại bài tập bằng hình ảnh</p>
+      </header>
+
+      <main>
+        <!-- Form thêm bài tập -->
+        <section class="card form-card">
+          <h2>Thêm bài tập mới</h2>
+          <div class="form-group">
+            <input type="text" id="titleInput" placeholder="Tên bài tập..." />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              id="topicInput"
+              placeholder="Chủ đề (VD: Giải tích, C++, Tiếng Anh...)"
+            />
+          </div>
+
+          <div class="form-group file-upload-wrapper">
+            <label for="imageInput" class="btn btn-secondary"
+              >📷 Chọn hình ảnh bài tập</label
+            >
+            <input
+              type="file"
+              id="imageInput"
+              accept="image/*"
+              style="display: none"
+            />
+            <span id="fileName" class="file-name">Chưa chọn ảnh</span>
+          </div>
+
+          <div id="imagePreviewContainer" class="preview-container hidden">
+            <img id="imagePreview" src="" alt="Xem trước" />
+          </div>
+
+          <button id="addBtn" class="btn btn-primary">Lưu Bài Tập</button>
+        </section>
+
+        <!-- Bộ lọc theo chủ đề -->
+        <section class="filter-section">
+          <label for="topicFilter">Lọc theo chủ đề:</label>
+          <select id="topicFilter">
+            <option value="ALL">Tất cả chủ đề</option>
+          </select>
+        </section>
+
+        <!-- Danh sách bài tập -->
+        <section id="exerciseList" class="exercise-grid"></section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
