@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bài Kiểm Tra Trực Tuyến</title>
+    <title>Hệ Thống Kiểm Tra & Luyện Tập</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap");
       * {
@@ -421,12 +421,6 @@
         font-weight: 700;
         text-align: center;
       }
-      .essay-note {
-        font-size: 12.5px;
-        color: var(--gray-600);
-        font-style: italic;
-        margin-top: 6px;
-      }
 
       /* BUTTON & FEEDBACK */
       .check-btn {
@@ -581,7 +575,7 @@
   </head>
   <body>
     <div class="header">
-      <div class="header-title">Bài Kiểm Tra Tổng Hợp</div>
+      <div class="header-title">Mạng Máy Tính Bài 4</div>
       <div class="timer" id="timerEl">10:00</div>
     </div>
     <div id="mainEl"></div>
@@ -589,8 +583,10 @@
 
     <script>
       const TOTAL_SECONDS = 10 * 60;
+      const LABELS = ["A", "B", "C", "D", "E", "F", "G", "H"];
+
+      // Cấu trúc dữ liệu chuẩn hóa
       const QS = [
-        // Câu 1: Multi (chọn 1)
         {
           id: 1,
           type: "multi",
@@ -598,25 +594,23 @@
           opts: ["HTTP", "IP", "TCP", "ARP"],
           ans: [2],
           explain:
-            "TCP (Transmission Control Protocol) và UDP là các giao thức thuộc tầng Giao vận. HTTP thuộc tầng Ứng dụng, IP thuộc tầng Mạng, và ARP thuộc tầng Truy cập mạng.",
+            "TCP (Transmission Control Protocol) và UDP là các giao thức thuộc tầng Giao vận.",
         },
-        // Câu 2: Multi (chọn 2)
         {
           id: 2,
           type: "multi",
-          text: "Các đặc điểm nào sau đây thuộc về giao thức UDP? (Chọn 2)",
+          text: "Một trong các đặc điểm của truyền thông không tin cậy (Unreliable Communication) là gì?",
           opts: [
-            "Là giao thức hướng kết nối (Connection-oriented)",
-            "Không đảm bảo thứ tự gói tin truyền đến",
-            "Có cơ chế truyền lại khi gói tin bị mất",
-            "Độ trễ thấp, phù hợp cho streaming thời gian thực",
-            "Sử dụng bắt tay 3 bước để khởi tạo",
+            "Luôn đảm bảo dữ liệu đến đúng thứ tự",
+            "Được cung cấp bởi giao thức HTTP",
+            "Yêu cầu xác nhận từ bên nhận sau mỗi lần gửi",
+            "Không có cơ chế đảm bảo dữ liệu được gửi đi sẽ đến đúng nơi nhận, đến đủ, đúng thứ tự hoặc không bị trùng lặp",
           ],
+          // Chọn 2 đáp án đúng là B và D (index 1 và 3) làm ví dụ truyền thông không tin cậy
           ans: [1, 3],
           explain:
-            "UDP là giao thức phi kết nối (Connectionless), không đảm bảo thứ tự gói tin và không tự động truyền lại gói tin mất, nhờ đó giảm tối đa độ trễ, rất phù hợp với truyền dữ liệu thời gian thực.",
+            "Truyền thông không tin cậy không đảm bảo thứ tự, không yêu cầu xác nhận báo nhận (ACK) và thường được dùng bởi các ứng dụng chấp nhận mất gói tin nhỏ để ưu tiên tốc độ.",
         },
-        // Câu 3: Đúng / Sai (TF)
         {
           id: 3,
           type: "tf",
@@ -630,44 +624,36 @@
             {
               stmt: "Địa chỉ 192.168.1.1 là địa chỉ IP công cộng (Public IP).",
               ans: false,
-              explain:
-                "Sai. Đây là địa chỉ IP riêng (Private IP) dùng trong mạng nội bộ.",
+              explain: "Sai. Đây là địa chỉ IP riêng (Private IP).",
             },
             {
               stmt: "Địa chỉ 255.255.255.255 là địa chỉ Quảng bá (Broadcast).",
               ans: true,
-              explain:
-                "Đúng. Đây là địa chỉ Broadcast toàn cục trong mạng LAN.",
+              explain: "Đúng. Đây là địa chỉ Broadcast toàn cục.",
             },
           ],
         },
-        // Câu 4: Phân loại Drag/Tap
         {
           id: 4,
           type: "drag2",
           text: "Phân loại các giao thức sau vào đúng nhóm tầng hoạt động:",
-          chips: ["HTTP", "TCP", "FTP", "UDP", "DNS"],
+          chips: ["HTTP", "TCP", "FTP", "UDP"],
           cols: [
-            {
-              head: "Tầng Ứng dụng (Application)",
-              ans: ["HTTP", "FTP", "DNS"],
-            },
-            { head: "Tầng Giao vận (Transport)", ans: ["TCP", "UDP"] },
+            { head: "Tầng Ứng dụng", ans: ["HTTP", "FTP"] },
+            { head: "Tầng Giao vận", ans: ["TCP", "UDP"] },
           ],
           explain:
-            "HTTP, FTP, DNS là các giao thức tầng Ứng dụng. TCP và UDP cung cấp dịch vụ vận chuyển dữ liệu ở tầng Giao vận.",
+            "HTTP, FTP thuộc tầng Ứng dụng. TCP, UDP thuộc tầng Giao vận.",
         },
-        // Câu 5: Tự luận (Essay)
         {
           id: 5,
           type: "essay",
-          text: "Trình bày ngắn gọn khái niệm và mục đích của quá trình Bắt tay 3 bước (Three-way handshake) trong TCP.",
+          text: "Trình bày khái niệm và mục đích của Bắt tay 3 bước (Three-way handshake) trong TCP.",
           model:
-            "<b>Đáp án gợi ý:</b><br>- <b>Khái niệm:</b> Là quá trình trao đổi 3 gói tin (SYN, SYN-ACK, ACK) giữa Client và Server.<br>- <b>Mục đích:</b> Thiết lập kết nối tin cậy, đồng bộ hóa số thứ tự gói tin (Sequence Number) và cấp phát bộ nhớ đệm trước khi truyền dữ liệu.",
+            "<b>Đáp án gợi ý:</b><br>- Khái niệm: Là quá trình trao đổi 3 gói tin (SYN, SYN-ACK, ACK).<br>- Mục đích: Thiết lập kết nối tin cậy trước khi truyền dữ liệu.",
           rubric: [
             "Nêu đủ 3 gói tin trao đổi: SYN, SYN-ACK, ACK",
             "Giải thích được mục đích thiết lập kết nối tin cậy",
-            "Nêu được ý nghĩa đồng bộ hóa số thứ tự (Sequence Number)",
           ],
         },
       ];
@@ -675,6 +661,10 @@
       // STATE
       let cur = 0;
       const ANS = {};
+      const MTEMP = {},
+        TFTEMP = {},
+        ETEMP = {},
+        SELFCHECK = {};
       let activeChip = null;
       let secondsLeft = TOTAL_SECONDS;
       let timerId = null;
@@ -696,12 +686,12 @@
         return QS.filter((q) => q.type !== "essay").length;
       }
 
-      // TIMER
       function fmtTime(s) {
         const m = Math.floor(s / 60);
         const ss = s % 60;
         return String(m).padStart(2, "0") + ":" + String(ss).padStart(2, "0");
       }
+
       function startTimer() {
         const el = document.getElementById("timerEl");
         el.textContent = fmtTime(secondsLeft);
@@ -727,7 +717,6 @@
         }, 1000);
       }
 
-      // RENDER NAV & MAIN
       function renderNav() {
         const nav = document.getElementById("navEl");
         nav.innerHTML = "";
@@ -790,7 +779,7 @@
         if (q.type === "multi") {
           const n = document.createElement("div");
           n.className = "note-yellow";
-          n.textContent = `Hãy chọn ${q.ans.length} đáp án đúng nhất!`;
+          n.textContent = `Hãy chọn ${q.ans.length} đáp án đúng!`;
           qtop.appendChild(n);
         }
         mc.appendChild(qtop);
@@ -808,65 +797,103 @@
         mc.appendChild(qbody);
       }
 
-      // MULTI
-      const MTEMP = {};
+      /* --- BẢN VÁ CODE HOÀN CHỈNH CHO BUILDMULTI --- */
       function buildMulti(body, q, qi) {
         const lbl = document.createElement("div");
         lbl.className = "answer-lbl";
         lbl.textContent = "Trả lời:";
         body.appendChild(lbl);
+
         const saved = ANS[qi];
         if (!MTEMP[qi]) MTEMP[qi] = [];
-        const LABS = ["A", "B", "C", "D", "E", "F"];
+
+        // 1. Hiển thị danh sách các lựa chọn
         q.opts.forEach((opt, oi) => {
-          const sel = saved ? saved.sel.includes(oi) : MTEMP[qi].includes(oi);
-          let cls = saved
-            ? q.ans.includes(oi) && sel
-              ? "ok"
-              : sel && !q.ans.includes(oi)
-                ? "bad"
-                : !sel && q.ans.includes(oi)
-                  ? "missed"
-                  : ""
-            : sel
-              ? "sel"
-              : "";
+          const isSelected = saved
+            ? saved.sel.includes(oi)
+            : MTEMP[qi].includes(oi);
+          const isCorrectAns = q.ans.includes(oi);
+
+          let cls = "";
+          if (saved) {
+            if (isCorrectAns && isSelected)
+              cls = "ok"; // Đúng & Đã chọn
+            else if (isSelected && !isCorrectAns)
+              cls = "bad"; // Sai & Đã chọn
+            else if (!isSelected && isCorrectAns) cls = "missed"; // Bỏ sót đáp án đúng
+          } else if (isSelected) {
+            cls = "sel";
+          }
+
           const el = document.createElement("div");
-          el.className = "mopt " + (saved ? "locked " : "") + cls;
-          el.innerHTML = `<div class="mchk">${sel ? "✓" : ""}</div><div class="mtext"><b>${LABS[oi]}.</b>${opt}</div>`;
-          if (!saved)
+          el.className = `mopt ${saved ? "locked " : ""}${cls}`;
+          el.innerHTML = `
+      <div class="mchk">${isSelected ? "✓" : ""}</div>
+      <div class="mtext"><b>${LABELS[oi]}.</b> ${opt}</div>
+    `;
+
+          if (!saved) {
             el.onclick = () => {
               const idx = MTEMP[qi].indexOf(oi);
               if (idx >= 0) MTEMP[qi].splice(idx, 1);
               else MTEMP[qi].push(oi);
               render();
             };
+          }
           body.appendChild(el);
         });
 
+        // 2. Xử lý Nút Kiểm tra & Khối Phản hồi (Feedback)
         if (!saved) {
           const btn = document.createElement("button");
           btn.className = "check-btn";
           btn.textContent = "Kiểm tra";
           btn.onclick = () => {
             const sel = [...MTEMP[qi]];
-            const correct =
+            if (sel.length === 0) {
+              alert("Vui lòng chọn ít nhất một đáp án!");
+              return;
+            }
+
+            // So sánh chính xác danh sách đáp án người dùng chọn với đáp án đúng
+            const isCorrect =
+              q.ans.length === sel.length &&
               q.ans.every((a) => sel.includes(a)) &&
               sel.every((s) => q.ans.includes(s));
-            ANS[qi] = { sel, correct };
+
+            ANS[qi] = { sel, correct: isCorrect };
             render();
           };
           body.appendChild(btn);
         } else {
-          const top = saved.correct
+          // Xử lý chuỗi hiển thị đáp án đúng (Sửa triệt để lỗi dư chữ "và")
+          const correctLabels = q.ans.map((i) => LABELS[i]);
+          let correctStr = "";
+          if (correctLabels.length === 1) {
+            correctStr = correctLabels[0];
+          } else if (correctLabels.length === 2) {
+            correctStr = correctLabels.join(" và ");
+          } else {
+            correctStr =
+              correctLabels.slice(0, -1).join(", ") +
+              " và " +
+              correctLabels.slice(-1);
+          }
+
+          const topMsg = saved.correct
             ? "✅ Chọn đúng tất cả!"
-            : `❌ Chưa đúng! Đáp án đúng: ${q.ans.map((i) => LABS[i]).join(" và ")}`;
-          body.appendChild(makeFB(saved.correct, top, q.explain));
+            : `❌ Chưa đúng! Đáp án đúng: ${correctStr}`;
+
+          const explainText =
+            q.explain && q.explain.trim() !== ""
+              ? q.explain
+              : "Chưa có lời giải thích chi tiết cho câu hỏi này.";
+
+          body.appendChild(makeFB(saved.correct, topMsg, explainText));
         }
       }
 
       // TF
-      const TFTEMP = {};
       function buildTF(body, q, qi) {
         const lbl = document.createElement("div");
         lbl.className = "answer-lbl";
@@ -1038,8 +1065,6 @@
       }
 
       // ESSAY
-      const ETEMP = {},
-        SELFCHECK = {};
       function buildEssay(body, q, qi) {
         const lbl = document.createElement("div");
         lbl.className = "answer-lbl";
