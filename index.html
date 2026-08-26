@@ -3,64 +3,944 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quản Lý Bài Tập - Study Helper</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Hệ Thống Luyện Tập & Quản Lý Bài Tập</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --sidebar-bg: #111827;
+        --sidebar-hover: #1f2937;
+        --primary: #1e6fe8;
+        --primary-dark: #155dc7;
+        --bg-main: #f8fafc;
+        --card-bg: #ffffff;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+        --green: #16a34a;
+        --green-bg: #f0fdf4;
+        --red: #dc2626;
+        --red-bg: #fef2f2;
+        --yellow: #fde68a;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", sans-serif;
+      }
+      body {
+        background: var(--bg-main);
+        color: var(--text-main);
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* --- SIDEBAR --- */
+      .sidebar {
+        width: 240px;
+        background: var(--sidebar-bg);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+      }
+      .sidebar-logo {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .avatar-circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #374151;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+      }
+      .nav-list {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 0 12px;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        color: #9ca3af;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .nav-item:hover,
+      .nav-item.active {
+        background: var(--sidebar-hover);
+        color: #fff;
+      }
+      .sidebar-footer {
+        padding: 20px;
+        border-top: 1px solid #1f2937;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+      }
+      .logout-btn {
+        color: #9ca3af;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      /* --- MAIN CONTENT --- */
+      .main-content {
+        margin-left: 240px;
+        flex: 1;
+        padding: 32px;
+        min-height: 100vh;
+      }
+      .top-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 24px;
+      }
+      .page-title {
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .page-desc {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+      .btn-primary {
+        background: var(--sidebar-bg);
+        color: #fff;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.2s;
+      }
+      .btn-primary:hover {
+        opacity: 0.9;
+      }
+
+      /* --- STATS CARDS --- */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .stat-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .stat-val {
+        font-size: 24px;
+        font-weight: 700;
+        margin-top: 6px;
+      }
+      .stat-label {
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+      .stat-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+
+      /* --- FILTER & SEARCH BAR --- */
+      .filter-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 12px;
+      }
+      .search-input {
+        background: #f1f5f9;
+        border: none;
+        padding: 10px 16px 10px 38px;
+        border-radius: 8px;
+        font-size: 14px;
+        width: 300px;
+      }
+      .search-box {
+        position: relative;
+      }
+      .search-box i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+      }
+      .filter-tags {
+        display: flex;
+        background: #e2e8f0;
+        padding: 3px;
+        border-radius: 8px;
+        gap: 2px;
+      }
+      .tag-btn {
+        border: none;
+        background: none;
+        padding: 6px 14px;
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        color: var(--text-muted);
+      }
+      .tag-btn.active {
+        background: #fff;
+        color: var(--text-main);
+      }
+
+      /* --- TOPIC LIST / GRID --- */
+      .topic-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 16px;
+      }
+      .topic-card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        transition: 0.2s;
+        position: relative;
+      }
+      .topic-card:hover {
+        border-color: var(--primary);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .topic-card-title {
+        font-weight: 700;
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+      .topic-meta {
+        font-size: 12px;
+        color: var(--text-muted);
+        display: flex;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .topic-tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      .badge {
+        background: #eff6ff;
+        color: var(--primary);
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .btn-play {
+        width: 100%;
+        padding: 8px;
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      /* --- DASHBOARD EMPTY STATE --- */
+      .empty-box {
+        background: #fff;
+        border: 2px dashed var(--border);
+        border-radius: 12px;
+        padding: 48px;
+        text-align: center;
+      }
+      .empty-icon {
+        width: 48px;
+        height: 48px;
+        background: #f1f5f9;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        color: var(--text-muted);
+      }
+
+      /* --- CREATE TOPIC VIEW --- */
+      .create-container {
+        display: grid;
+        grid-template-columns: 420px 1fr;
+        gap: 24px;
+      }
+      .form-card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+      }
+      .form-group {
+        margin-bottom: 16px;
+      }
+      .form-label {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+      }
+      .form-control {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 14px;
+        outline: none;
+        background: #f8fafc;
+      }
+      .form-control:focus {
+        border-color: var(--primary);
+        background: #fff;
+      }
+      textarea.form-control {
+        min-height: 140px;
+        resize: vertical;
+      }
+
+      /* --- QUIZ RUNNER INTERFACE --- */
+      .quiz-runner {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .quiz-header {
+        background: var(--primary);
+        color: #fff;
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .quiz-body {
+        padding: 24px;
+      }
+      .qnum {
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 6px;
+      }
+      .qtext {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        line-height: 1.5;
+      }
+      .opt-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .opt-item {
+        padding: 12px 16px;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: 0.15s;
+      }
+      .opt-item:hover {
+        border-color: var(--primary);
+        background: #eff6ff;
+      }
+      .opt-item.selected {
+        border-color: var(--primary);
+        background: #eff6ff;
+      }
+      .opt-item.correct {
+        border-color: var(--green);
+        background: var(--green-bg);
+      }
+      .opt-item.incorrect {
+        border-color: var(--red);
+        background: var(--red-bg);
+      }
+      .quiz-footer {
+        padding: 16px 24px;
+        background: #f8fafc;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+      }
+      .tf-item {
+        margin-bottom: 16px;
+      }
+      .tf-btns {
+        display: flex;
+        gap: 10px;
+        margin-top: 6px;
+      }
+      .tf-btn {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid var(--border);
+        background: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .tf-btn.active {
+        border-color: var(--primary);
+        background: #eff6ff;
+        color: var(--primary);
+      }
+    </style>
   </head>
   <body>
-    <div class="app-container">
-      <header>
-        <h1>📚 Quản Lý Bài Tập</h1>
-        <p>Tạo và phân loại bài tập bằng hình ảnh</p>
-      </header>
-
-      <main>
-        <!-- Form thêm bài tập -->
-        <section class="card form-card">
-          <h2>Thêm bài tập mới</h2>
-          <div class="form-group">
-            <input type="text" id="titleInput" placeholder="Tên bài tập..." />
+    <!-- SIDEBAR NAVIGATION -->
+    <div class="sidebar">
+      <div>
+        <div class="sidebar-logo">
+          <div class="avatar-circle">T</div>
+          <span>Tunz</span>
+        </div>
+        <div class="nav-list">
+          <a class="nav-item active" onclick="switchView('home')"
+            ><i class="fa-solid fa-house"></i> Home</a
+          >
+          <a class="nav-item" onclick="switchView('manage')"
+            ><i class="fa-solid fa-book-bookmark"></i> Quản lý chủ đề</a
+          >
+        </div>
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div
+            class="avatar-circle"
+            style="width: 28px; height: 28px; font-size: 12px"
+          >
+            T
           </div>
-          <div class="form-group">
-            <input
-              type="text"
-              id="topicInput"
-              placeholder="Chủ đề (VD: Giải tích, C++, Tiếng Anh...)"
-            />
-          </div>
-
-          <div class="form-group file-upload-wrapper">
-            <label for="imageInput" class="btn btn-secondary"
-              >📷 Chọn hình ảnh bài tập</label
-            >
-            <input
-              type="file"
-              id="imageInput"
-              accept="image/*"
-              style="display: none"
-            />
-            <span id="fileName" class="file-name">Chưa chọn ảnh</span>
-          </div>
-
-          <div id="imagePreviewContainer" class="preview-container hidden">
-            <img id="imagePreview" src="" alt="Xem trước" />
-          </div>
-
-          <button id="addBtn" class="btn btn-primary">Lưu Bài Tập</button>
-        </section>
-
-        <!-- Bộ lọc theo chủ đề -->
-        <section class="filter-section">
-          <label for="topicFilter">Lọc theo chủ đề:</label>
-          <select id="topicFilter">
-            <option value="ALL">Tất cả chủ đề</option>
-          </select>
-        </section>
-
-        <!-- Danh sách bài tập -->
-        <section id="exerciseList" class="exercise-grid"></section>
-      </main>
+          <span>Tuấn</span>
+        </div>
+        <button class="logout-btn">
+          <i class="fa-solid fa-right-from-bracket"></i> log out
+        </button>
+      </div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- MAIN WORKSPACE -->
+    <div class="main-content">
+      <!-- VIEW 1: HOME DASHBOARD -->
+      <div id="view-home">
+        <div class="top-header">
+          <div>
+            <h1 class="page-title">Tổng quan</h1>
+            <p class="page-desc">
+              Quản lý và theo dõi bài tập từ văn bản của bạn
+            </p>
+          </div>
+          <button class="btn-primary" onclick="switchView('manage')">
+            <i class="fa-solid fa-plus"></i> Tạo chủ đề mới
+          </button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Tổng chủ đề</div>
+              <div class="stat-val" id="stat-topics">0</div>
+            </div>
+            <div class="stat-icon" style="background: #eff6ff; color: #1e6fe8">
+              <i class="fa-solid fa-bookmark"></i>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Tổng câu hỏi</div>
+              <div class="stat-val" id="stat-questions">0</div>
+            </div>
+            <div class="stat-icon" style="background: #f3e8ff; color: #9333ea">
+              <i class="fa-solid fa-book-open"></i>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Đang hoạt động</div>
+              <div class="stat-val" id="stat-active">0</div>
+            </div>
+            <div class="stat-icon" style="background: #dcfce7; color: #16a34a">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Nháp</div>
+              <div class="stat-val">0</div>
+            </div>
+            <div class="stat-icon" style="background: #fef3c7; color: #d97706">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Tìm kiếm chủ đề, tag..."
+            />
+          </div>
+          <div class="filter-tags">
+            <button class="tag-btn active">Tất cả</button>
+            <button class="tag-btn">Hoạt động</button>
+            <button class="tag-btn">Nháp</button>
+          </div>
+        </div>
+
+        <div id="home-topic-container">
+          <div class="empty-box">
+            <div class="empty-icon"><i class="fa-solid fa-bolt"></i></div>
+            <h3>Bắt đầu tạo bài tập</h3>
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 14px;
+                margin: 8px 0 20px;
+              "
+            >
+              Tải lên văn bản hoặc nhập nội dung — Tunz sẽ tự động sinh câu hỏi
+              để hỗ trợ học tập.
+            </p>
+            <button
+              class="btn-primary"
+              style="margin: 0 auto"
+              onclick="switchView('manage')"
+            >
+              <i class="fa-solid fa-plus"></i> Tạo chủ đề đầu tiên
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 2: MANAGEMENT & CREATE TOPIC -->
+      <div id="view-manage" style="display: none">
+        <div class="top-header">
+          <div>
+            <h1 class="page-title">
+              <i
+                class="fa-solid fa-bookmark"
+                style="font-size: 18px; margin-right: 8px"
+              ></i>
+              Quản lý chủ đề
+            </h1>
+            <p class="page-desc">Tạo chủ đề và sinh câu hỏi từ văn bản</p>
+          </div>
+        </div>
+
+        <div class="create-container">
+          <!-- Form Input Left -->
+          <div class="form-card">
+            <h3 style="font-size: 15px; margin-bottom: 16px">
+              <i class="fa-solid fa-plus"></i> Thêm chủ đề mới
+            </h3>
+            <div class="form-group">
+              <label class="form-label">Tên chủ đề</label>
+              <input
+                type="text"
+                id="topic-title"
+                class="form-control"
+                placeholder="Tên chủ đề..."
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Văn bản nguồn (Tùy chọn)</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Chọn văn bản (.pdf, .docx, .txt)"
+                readonly
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label"
+                >Nội dung câu hỏi / Văn bản cấu trúc</label
+              >
+              <textarea
+                id="topic-raw"
+                class="form-control"
+                placeholder="Dán nội dung chứa câu hỏi, đáp án tại đây...&#10;Hệ thống tự động nhận diện câu trắc nghiệm (A,B,C,D) hoặc Đúng/Sai."
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Thẻ tag (cách nhau bởi dấu phẩy)</label>
+              <input
+                type="text"
+                id="topic-tags"
+                class="form-control"
+                placeholder="Ví dụ: Mạng máy tính, Bài 4"
+              />
+            </div>
+            <button
+              class="btn-primary"
+              style="width: 100%; justify-content: center; margin-top: 8px"
+              onclick="createTopic()"
+            >
+              Tạo chủ đề
+            </button>
+          </div>
+
+          <!-- Topic List Right -->
+          <div class="form-card">
+            <h3 style="font-size: 15px; margin-bottom: 16px">
+              Danh sách chủ đề (<span id="topic-count">0</span>)
+            </h3>
+            <div id="manage-topic-list">
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 14px;
+                  text-align: center;
+                  padding: 40px 0;
+                "
+              >
+                Chưa có chủ đề nào. Hãy tạo chủ đề đầu tiên!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 3: QUIZ RUNNER -->
+      <div id="view-quiz" style="display: none">
+        <div class="quiz-runner">
+          <div class="quiz-header">
+            <h3 id="quiz-title">Tên bài kiểm tra</h3>
+            <span id="quiz-timer"
+              ><i class="fa-regular fa-clock"></i> 15:00</span
+            >
+          </div>
+          <div class="quiz-body" id="quiz-body-content">
+            <!-- Dynamic quiz content -->
+          </div>
+          <div class="quiz-footer">
+            <button class="tag-btn" onclick="switchView('home')">Thoát</button>
+            <button
+              class="btn-primary"
+              id="btn-quiz-next"
+              onclick="nextQuestion()"
+            >
+              Câu tiếp theo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // --- DATA STORAGE ---
+      let topics = [];
+      let currentQuiz = null;
+      let currentQIdx = 0;
+      let userAnswers = {};
+
+      // --- NAVIGATION SWITCHER ---
+      function switchView(viewName) {
+        document.getElementById("view-home").style.display =
+          viewName === "home" ? "block" : "none";
+        document.getElementById("view-manage").style.display =
+          viewName === "manage" ? "block" : "none";
+        document.getElementById("view-quiz").style.display =
+          viewName === "quiz" ? "block" : "none";
+
+        document
+          .querySelectorAll(".nav-item")
+          .forEach((el) => el.classList.remove("active"));
+        if (viewName === "home")
+          document.querySelectorAll(".nav-item")[0].classList.add("active");
+        if (viewName === "manage")
+          document.querySelectorAll(".nav-item")[1].classList.add("active");
+
+        updateDashboard();
+      }
+
+      // --- TEXT PARSER ENGINE (Chuyển đổi văn bản dán vào thành dữ liệu câu hỏi) ---
+      function parseTextToQuestions(rawText) {
+        const questions = [];
+        const blocks = rawText
+          .split(/Câu\s+\d+[:.]/gi)
+          .filter((b) => b.trim() !== "");
+
+        blocks.forEach((block, idx) => {
+          const lines = block
+            .split("\n")
+            .map((l) => l.trim())
+            .filter((l) => l !== "");
+          if (lines.length < 2) return;
+
+          const qText = lines[0];
+          const options = [];
+          let correctAns = [];
+          let isTF = false;
+          let tfItems = [];
+
+          // Kiểm tra định dạng Đúng/Sai hoặc Trắc nghiệm
+          lines.slice(1).forEach((line) => {
+            const optMatch = line.match(/^([A-DF-Z])[\.\)]\s*(.*)/i);
+            if (optMatch) {
+              options.push(optMatch[2]);
+              if (line.includes("*") || line.toLowerCase().includes("[đúng]")) {
+                correctAns.push(options.length - 1);
+              }
+            } else if (
+              line.toLowerCase().includes("đúng") ||
+              line.toLowerCase().includes("sai")
+            ) {
+              isTF = true;
+              tfItems.push({
+                stmt: line
+                  .replace(/(\(Đúng\)|\(Sai\)|\[Đúng\]|\[Sai\])/gi, "")
+                  .trim(),
+                ans: line.toLowerCase().includes("đúng"),
+              });
+            }
+          });
+
+          if (isTF) {
+            questions.push({
+              id: idx + 1,
+              type: "tf",
+              text: qText,
+              items: tfItems,
+            });
+          } else if (options.length > 0) {
+            questions.push({
+              id: idx + 1,
+              type: "multi",
+              text: qText,
+              opts: options,
+              ans: correctAns.length > 0 ? correctAns : [0], // Mặc định chọn A nếu không đánh dấu
+            });
+          }
+        });
+
+        return questions;
+      }
+
+      // --- CREATE TOPIC ACTION ---
+      function createTopic() {
+        const title = document.getElementById("topic-title").value.trim();
+        const rawText = document.getElementById("topic-raw").value.trim();
+        const tagsText = document.getElementById("topic-tags").value.trim();
+
+        if (!title || !rawText) {
+          alert("Vui lòng điền tên chủ đề và dán nội dung câu hỏi!");
+          return;
+        }
+
+        const questions = parseTextToQuestions(rawText);
+        const newTopic = {
+          id: Date.now(),
+          title: title,
+          tags: tagsText
+            ? tagsText.split(",").map((t) => t.trim())
+            : ["Tự tạo"],
+          questions: questions,
+          createdAt: new Date().toLocaleDateString("vi-VN"),
+        };
+
+        topics.push(newTopic);
+        alert(`Đã khởi tạo thành công ${questions.length} câu hỏi!`);
+
+        // Reset Form
+        document.getElementById("topic-title").value = "";
+        document.getElementById("topic-raw").value = "";
+        document.getElementById("topic-tags").value = "";
+
+        switchView("home");
+      }
+
+      // --- DASHBOARD RENDER & UPDATES ---
+      function updateDashboard() {
+        document.getElementById("stat-topics").textContent = topics.length;
+        const totalQ = topics.reduce((acc, t) => acc + t.questions.length, 0);
+        document.getElementById("stat-questions").textContent = totalQ;
+        document.getElementById("stat-active").textContent = topics.length;
+        document.getElementById("topic-count").textContent = topics.length;
+
+        const homeContainer = document.getElementById("home-topic-container");
+        const manageContainer = document.getElementById("manage-topic-list");
+
+        if (topics.length === 0) {
+          manageContainer.innerHTML = `<p style="color:var(--text-muted); font-size:14px; text-align:center; padding:40px 0;">Chưa có chủ đề nào. Hãy tạo chủ đề đầu tiên!</p>`;
+          return;
+        }
+
+        // Render Grid trên Trang chủ
+        let gridHtml = '<div class="topic-grid">';
+        topics.forEach((t) => {
+          gridHtml += `
+      <div class="topic-card">
+        <div class="topic-card-title">${t.title}</div>
+        <div class="topic-meta">
+          <span><i class="fa-regular fa-file-lines"></i> ${t.questions.length} câu hỏi</span>
+          <span><i class="fa-regular fa-calendar"></i> ${t.createdAt}</span>
+        </div>
+        <div class="topic-tags">
+          ${t.tags.map((tag) => `<span class="badge">${tag}</span>`).join("")}
+        </div>
+        <button class="btn-play" onclick="startQuiz(${t.id})">Luyện tập ngay</button>
+      </div>`;
+        });
+        gridHtml += "</div>";
+        homeContainer.innerHTML = gridHtml;
+
+        // Render Danh sách ở trang Quản lý
+        let manageHtml = "";
+        topics.forEach((t) => {
+          manageHtml += `
+      <div style="border:1px solid var(--border); padding:12px 16px; border-radius:8px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:600;">${t.title}</div>
+          <div style="font-size:12px; color:var(--text-muted);">${t.questions.length} câu hỏi</div>
+        </div>
+        <button class="tag-btn" onclick="startQuiz(${t.id})">Thi thử</button>
+      </div>`;
+        });
+        manageContainer.innerHTML = manageHtml;
+      }
+
+      // --- QUIZ ENGINE ---
+      function startQuiz(topicId) {
+        currentQuiz = topics.find((t) => t.id === topicId);
+        if (!currentQuiz || currentQuiz.questions.length === 0) {
+          alert("Chủ đề này chưa có câu hỏi hợp lệ!");
+          return;
+        }
+        currentQIdx = 0;
+        userAnswers = {};
+        document.getElementById("quiz-title").textContent = currentQuiz.title;
+        switchView("quiz");
+        renderCurrentQuestion();
+      }
+
+      function renderCurrentQuestion() {
+        const q = currentQuiz.questions[currentQIdx];
+        const container = document.getElementById("quiz-body-content");
+        let html = `<div class="qnum">Câu ${currentQIdx + 1}/${currentQuiz.questions.length}</div>
+              <div class="qtext">${q.text}</div>`;
+
+        if (q.type === "multi") {
+          html += '<div class="opt-list">';
+          q.opts.forEach((opt, idx) => {
+            const isSel = userAnswers[currentQIdx] === idx;
+            html += `
+        <div class="opt-item ${isSel ? "selected" : ""}" onclick="selectOpt(${idx})">
+          <div style="font-weight:700;">${String.fromCharCode(65 + idx)}.</div>
+          <div>${opt}</div>
+        </div>`;
+          });
+          html += "</div>";
+        } else if (q.type === "tf") {
+          html += "<div>";
+          q.items.forEach((it, idx) => {
+            html += `
+        <div class="tf-item">
+          <div style="font-size:14px; font-weight:500;">${idx + 1}. ${it.stmt}</div>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="selectTF(${idx}, true)">Đúng</button>
+            <button class="tf-btn" onclick="selectTF(${idx}, false)">Sai</button>
+          </div>
+        </div>`;
+          });
+          html += "</div>";
+        }
+
+        container.innerHTML = html;
+        document.getElementById("btn-quiz-next").textContent =
+          currentQIdx === currentQuiz.questions.length - 1
+            ? "Hoàn thành"
+            : "Câu tiếp theo";
+      }
+
+      function selectOpt(idx) {
+        userAnswers[currentQIdx] = idx;
+        renderCurrentQuestion();
+      }
+
+      function nextQuestion() {
+        if (currentQIdx < currentQuiz.questions.length - 1) {
+          currentQIdx++;
+          renderCurrentQuestion();
+        } else {
+          alert("Chúc mừng bạn đã hoàn thành bài thi!");
+          switchView("home");
+        }
+      }
+
+      // Khởi chạy hệ thống ở màn hình Trang chủ
+      switchView("home");
+    </script>
   </body>
 </html>
